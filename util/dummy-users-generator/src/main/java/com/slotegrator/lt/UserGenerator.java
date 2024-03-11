@@ -1,23 +1,53 @@
-package com.slotegrator.lt.generator;
+package com.slotegrator.lt;
 
-import com.slotegrator.lt.model.User;
+import picocli.CommandLine;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class UserGeneratorImpl implements UserGenerator{
+@CommandLine.Command(name = "slotegrator dummy user generator", mixinStandardHelpOptions = true, version = "1.0")
+public class UserGenerator implements Runnable{
 
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String PASSWD = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()-_=+1234567890";
+    private static final int DEFAULT_MAIN_USERS_COUNT = 1000;
+    private static final int DEFAULT_SMOKE_USERS_COUNT = 2500;
+    private static final String DEFAULT_MAIN_FILE_NAME = "main.csv";
+    private static final String DEFAULT_SMOKE_FILE_NAME = "before.csv";
+
+    @CommandLine.Option(names = {"-m", "--main"}, description = "Set generated users count for main test")
+    private int usersCountForMainTest;
+
+    @CommandLine.Option(names = {"-s", "--smoke"}, description = "Set generated users count for smoke test before main")
+    private int usersCountForSmokeTest;
 
     @Override
-    public void run(int usersCount) {
-        writeToCSV(getDummyUsersList(usersCount), "test.csv");
+    public void run() {
+        List<User> usersForMainTest = new ArrayList<>();
+        List<User> usersForSmokeTest = new ArrayList<>();
+
+        if (usersCountForMainTest == 0)
+            usersForMainTest = getDummyUsersList(DEFAULT_MAIN_USERS_COUNT);
+        else if (usersCountForMainTest < 0)
+            System.out.println("Value cannot be less than 0");
+        else
+            usersForMainTest = getDummyUsersList(usersCountForMainTest);
+
+        if (usersCountForSmokeTest == 0)
+            usersForSmokeTest = getDummyUsersList(DEFAULT_SMOKE_USERS_COUNT);
+        else if (usersCountForSmokeTest < 0)
+            System.out.println("Value cannot be less than 0");
+        else
+            usersForSmokeTest = getDummyUsersList(usersCountForSmokeTest);
+
+        writeToCSV(usersForSmokeTest, DEFAULT_SMOKE_FILE_NAME);
+        writeToCSV(usersForMainTest, DEFAULT_MAIN_FILE_NAME);
     }
 
     private List<User> getDummyUsersList(int usersCount) {

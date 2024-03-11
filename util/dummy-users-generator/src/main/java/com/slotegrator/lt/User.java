@@ -1,4 +1,4 @@
-package com.slotegrator.lt.model;
+package com.slotegrator.lt;
 
 import java.util.Objects;
 
