@@ -48,11 +48,11 @@ Task for slotegrator
 
 ![image](https://github.com/Ulukbek-Toichuev/slotegrator_lt/assets/67442103/f7c35470-9458-4e70-a1dd-07fa0b1f1ff8)
 
-2. Убедитесь что пути до двух ваших файлов с тестовыми данными указаны верные
+2. ### Убедитесь что пути до двух ваших файлов с тестовыми данными указаны верные
   
-4. Убедитесь что времена в `startUp delay` в `POST_TEST_GET_ALL_USERS_TO_DELETE` и `POST_TEST_DELETE_ALL_USERS_BY_ID`
+4. ### Убедитесь что времена в `startUp delay` в `POST_TEST_GET_ALL_USERS_TO_DELETE` и `POST_TEST_DELETE_ALL_USERS_BY_ID`
 
-5. Можете запускать тесты!
+5. ### Можете запускать тесты!
    
 ## Результаты
 Все результаты собираются в итоговый `.csv` файл, для формирования отчета используется встроенные средства Jmeter для генериации HTML отчета.  
